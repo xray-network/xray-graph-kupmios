@@ -9,8 +9,7 @@ services:
         max-size: "400k"
         max-file: "20"
     ports:
-#      - 127.0.0.1:${OGMIOS_PORT:-1337}:1337
-      - ${OGMIOS_PORT:-1337}:1337
+      - 127.0.0.1:${OGMIOS_PORT:-1337}:1337
     restart: on-failure
     volumes:
       - node-db:/db
@@ -25,8 +24,7 @@ services:
         max-size: "400k"
         max-file: "20"
     ports:
-#      - 127.0.0.1:${KUPO_PORT:-1442}:1442
-      - ${KUPO_PORT:-1442}:1442
+      - 127.0.0.1:${KUPO_PORT:-1442}:1442
     command: [
       "--node-socket", "/ipc/node.socket",
       "--node-config", "/config/cardano-node/config.json",
