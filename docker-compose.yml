@@ -17,7 +17,7 @@ services:
       - ./cardano-configurations/network/${NETWORK:-mainnet}:/config
 
   kupo:
-    image: cardanosolutions/kupo:${KUPO_VERSION:-v2.4.1}
+    image: cardanosolutions/kupo:${KUPO_VERSION:-v2.5.0}
     logging:
       driver: "json-file"
       options:
