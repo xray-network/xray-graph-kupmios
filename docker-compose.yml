@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   cardano-node-ogmios:
-    image: cardanosolutions/cardano-node-ogmios:${OGMIOS_VERSION:-v5.6.0}_${CARDANO_NODE_VERSION:-1.35.7}-${NETWORK:-mainnet}
+    image: cardanosolutions/cardano-node-ogmios:${OGMIOS_VERSION:-v6.0.0-rc4}_${CARDANO_NODE_VERSION:-8.5.0-pre}-${NETWORK:-mainnet}
     logging:
       driver: "json-file"
       options:
@@ -10,14 +10,15 @@ services:
         max-file: "20"
     ports:
       - 127.0.0.1:${OGMIOS_PORT:-1337}:1337
+      - 3000:3000
     restart: on-failure
     volumes:
       - node-db:/db
       - node-ipc:/ipc
-      - ./cardano-configurations/network/${NETWORK:-mainnet}:/config
+#      - ./cardano-configurations/network/${NETWORK:-mainnet}:/config
 
   kupo:
-    image: cardanosolutions/kupo:${KUPO_VERSION:-v2.5.0}
+    image: cardanosolutions/kupo:${KUPO_VERSION:-v2.7.0}
     logging:
       driver: "json-file"
       options:
