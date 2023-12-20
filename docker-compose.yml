@@ -37,7 +37,7 @@ services:
     volumes:
       - kupo-db:/db
       - node-ipc:/ipc
-      - ./cardano-configurations/network/${NETWORK:-mainnet}:/config
+      - ./config/cardano-configurations/network/${NETWORK:-mainnet}:/config
 
   haproxy:
     image: haproxy:2.8.3
