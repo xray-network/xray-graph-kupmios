@@ -50,27 +50,6 @@ docker compose -p preview up -d --build
 
 ## Advanced Usage
 <details>
-  <summary>Variables List</summary>
-
-See `docker-compose.yml` for details.
-
-```
-NETWORK=
-
-CARDANO_NODE_VERSION=
-OGMIOS_VERSION=
-CARDANO_NODE_PORT=
-OGMIOS_PORT=
-
-KUPO_VERSION=
-KUPO_PORT=
-KUPO_SINCE=
-KUPO_MATCH=
-```
-
-</details>
-
-<details>
   <summary>HAProxy</summary>
 
 By default, all container ports are bound to 127.0.0.1, so these ports are not available outside the server. Replace `127.0.0.1:${OGMIOS_PORT:-8050}:8050` with `${OGMIOS_PORT:-8050}:8050` if you want to open ports for external access.
