@@ -9,9 +9,44 @@ git clone \
   https://github.com/ray-network/xray-graph-kupmios.git \
   && cd xray-graph-kupmios
 ```
+
+<details open>
+  <summary><b>mainnet</b></summary>
+
 ``` console
 KUPO_MATCH=* docker compose up -d
 ```
+
+</details>
+  
+<details open>
+  <summary><b>preprod</b></summary>
+
+``` console
+KUPO_MATCH=* \
+NETWORK=preprod \
+CARDANO_NODE_PORT=3001 \
+OGMIOS_PORT=1338 \
+KUPO_PORT=1443 \
+docker compose -p preprod up -d --build
+```
+
+</details>
+  
+<details open>
+  <summary><b>preview</b></summary>
+
+``` console
+KUPO_MATCH=* \
+NETWORK=preview \
+CARDANO_NODE_PORT=3002 \
+OGMIOS_PORT=1339 \
+KUPO_PORT=1444 \
+docker compose -p preview up -d --build
+```
+
+</details>
+
 
 ## Advanced Usage
 <details>
