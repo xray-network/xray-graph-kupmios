@@ -1,4 +1,4 @@
-# RayGraph Kupmios — Cardano Node Ogmios & Kupo Docker Compose Config
+# XRAY | Graph | Kupmios — Cardano Node Ogmios & Kupo Docker Compose Stack
 
 Kupo / Ogmios (Cardano Node) stack for Ray Network ecosystem needs
 
@@ -6,8 +6,8 @@ Kupo / Ogmios (Cardano Node) stack for Ray Network ecosystem needs
 ``` console
 git clone \
   --recurse-submodules \
-  https://github.com/ray-network/raygraph-kupmios.git \
-  && cd raygraph-kupmios
+  https://github.com/ray-network/xray-graph-kupmios.git \
+  && cd xray-graph-kupmios
 ```
 ``` console
 KUPO_MATCH=* docker compose up -d
@@ -24,6 +24,7 @@ NETWORK=
 
 CARDANO_NODE_VERSION=
 OGMIOS_VERSION=
+CARDANO_NODE_PORT=
 OGMIOS_PORT=
 
 KUPO_VERSION=
@@ -35,17 +36,16 @@ KUPO_MATCH=
 </details>
 
 <details>
-  <summary>External Accesss</summary>
-  
-By default, Ogmios and Kupo ports are bound to `127.0.0.1`, so these ports are not available outside the server. Replace `127.0.0.1:${OGMIOS_PORT:-1337}:1337` with `${OGMIOS_PORT:-1337}:1337` and `127.0.0.1:${KUPO_PORT:-1442}:1442` with `${KUPO_PORT:-1442}:1442` if you want to open ports for external access.
- 
-</details>
+  <summary>HAProxy</summary>
 
-<details>
-  <summary>Nginx Template</summary>
-  
-See `nginx.template` for details.
- 
+By default, all container ports are bound to 127.0.0.1, so these ports are not available outside the server. Replace `127.0.0.1:${OGMIOS_PORT:-8050}:8050` with `${OGMIOS_PORT:-8050}:8050` if you want to open ports for external access.
+
+Routes are resolved using the `HostResolver` header (this is needed for [XRAY | Graph | Output Load Balancer](https://github.com/ray-network/cloudflare-worker-output-load-balancer)). 
+
+Also, time limits on server requests can be disabled (or rather, increased from 30 seconds to 60 minutes) by setting `HAPROXY_JWT_BEARER_TOKEN` in the `.env` file and then passing it over the `BearerResolver` header.
+
+Check configuration file here [haproxy.cfg](https://github.com/ray-network/xray-graph-kupmios/blob/main/config/haproxy/haproxy.cfg).
+
 </details>
 
 
