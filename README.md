@@ -47,6 +47,7 @@ docker compose -p preview up -d --build
 
 </details>
 
+> The default configuration has an SSL key set at `/etc/ssl/xrey.pem`. You can disable it in `config/haproxy/haproxy.cfg`.
 
 ## Advanced Usage
 <details>
@@ -58,7 +59,7 @@ Routes are resolved using the `HostResolver` header (this is needed for [XRAY | 
 
 Also, time limits on server requests can be disabled (or rather, increased from 30 seconds to 60 minutes) by setting `HAPROXY_JWT_BEARER_TOKEN` in the `.env` file and then passing it over the `BearerResolver` header.
 
-The path to SSL PEM key can be found here `/etc/ssl/xray.pem/`.
+The path to SSL PEM key can be found here `/etc/ssl/xray.pem`.
 
 Check configuration file here [haproxy.cfg](https://github.com/ray-network/xray-graph-kupmios/blob/main/config/haproxy/haproxy.cfg).
 
