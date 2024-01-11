@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   cardano-node-ogmios:
-    image: cardanosolutions/cardano-node-ogmios:${OGMIOS_VERSION:-v6.0.0-rc6}_${CARDANO_NODE_VERSION:-8.1.2}-${NETWORK:-mainnet}
+    image: cardanosolutions/cardano-node-ogmios:${OGMIOS_VERSION:-v6.0.0}_${CARDANO_NODE_VERSION:-8.7.2}-${NETWORK:-mainnet}
     logging:
       driver: "json-file"
       options:
