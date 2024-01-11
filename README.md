@@ -1,6 +1,6 @@
 # XRAY | Graph | Kupmios — Cardano Node Ogmios & Kupo Docker Compose Stack
 
-Kupo / Ogmios (Cardano Node) stack for Ray Network ecosystem needs
+Kupo / Ogmios (Cardano Node) stack for XRAY | Network ecosystem needs
 
 ## Getting Started
 ``` console
