@@ -77,3 +77,8 @@ docker compose -p preview up -d --build
 ```
 
 </details>
+
+## Endpoints List
+  
+* Kupo — https://cardanosolutions.github.io/kupo/
+* Ogmios — https://ogmios.dev/api/
