@@ -21,6 +21,11 @@ Default
 docker compose up -d
 ```
 
+With HAProxy
+``` console
+docker compose --profile haproxy up -d
+```
+
 Advanced usage (Kupo config)
 
 ``` console
@@ -38,6 +43,11 @@ Default
 
 ``` console
 NETWORK=preprod docker compose up -d
+```
+
+With HAProxy
+``` console
+NETWORK=preprod docker compose --profile haproxy up -d
 ```
 
 Advanced usage (Kupo config, ports mapping, containers name change)
@@ -62,6 +72,11 @@ Default
 
 ``` console
 NETWORK=preview docker compose up -d
+```
+
+With HAProxy
+``` console
+NETWORK=preview docker compose --profile haproxy up -d
 ```
 
 Advanced usage (Kupo config, ports mapping, containers name change)
