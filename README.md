@@ -2,7 +2,8 @@
 
 # XRAY | Graph | Kupmios — Cardano Node Ogmios & Kupo Docker Compose Stack
 
-Kupo / Ogmios (Cardano Node) stack for XRAY | Network ecosystem needs
+> [!NOTE]
+> Kupo / Ogmios (Cardano Node) stack for XRAY | Network ecosystem needs
 
 ## Getting Started
 ``` console
@@ -19,11 +20,6 @@ Default
 
 ``` console
 docker compose up -d
-```
-
-With HAProxy
-``` console
-docker compose --profile haproxy up -d
 ```
 
 Advanced usage (Kupo config)
@@ -43,11 +39,6 @@ Default
 
 ``` console
 NETWORK=preprod docker compose up -d
-```
-
-With HAProxy
-``` console
-NETWORK=preprod docker compose --profile haproxy up -d
 ```
 
 Advanced usage (Kupo config, ports mapping, containers name change)
@@ -72,11 +63,6 @@ Default
 
 ``` console
 NETWORK=preview docker compose up -d
-```
-
-With HAProxy
-``` console
-NETWORK=preview docker compose --profile haproxy up -d
 ```
 
 Advanced usage (Kupo config, ports mapping, containers name change)
