@@ -1,55 +1,14 @@
 version: "3.8"
+name: kupmios
 
 services:
-  cardano-node-ogmios:
-    image: cardanosolutions/cardano-node-ogmios:${OGMIOS_VERSION:-v6.1.0}_${CARDANO_NODE_VERSION:-8.7.3}-${NETWORK:-mainnet}
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "400k"
-        max-file: "20"
-    ports:
-      - 127.0.0.1:${OGMIOS_PORT:-1337}:1337
-      - ${CARDANO_NODE_PORT:-3000}:3000
-    restart: on-failure
-    volumes:
-      - node-db:/db
-      - node-ipc:/ipc
-
-  kupo:
-    image: cardanosolutions/kupo:${KUPO_VERSION:-v2.7.2}
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "400k"
-        max-file: "20"
-    ports:
-      - 127.0.0.1:${KUPO_PORT:-1442}:1442
-    command: [
-      "--node-socket", "/ipc/node.socket",
-      "--node-config", "/config/cardano-node/config.json",
-      "--since", "${KUPO_SINCE:-origin}",
-      "--match", "${KUPO_MATCH:-*}",
-      "--workdir", "/db",
-      "--host", "0.0.0.0",
-      "--port", "1442"
-    ]
-    volumes:
-      - kupo-db:/db
-      - node-ipc:/ipc
-      - ./config/cardano-configurations/network/${NETWORK:-mainnet}:/config
-
   haproxy:
     image: haproxy:2.8.3
+    profiles: ["mainnet", "preprod", "preview"]
     env_file: ./.env
-    environment:
-      - NETWORK=${NETWORK:-mainnet}
     ports:
-      - ${HAPROXY_PORT:-80}:8080
-      - ${HAPROXY_SSL_PORT:-443}:8443
-    depends_on:
-      - cardano-node-ogmios
-      - kupo
+      - 80:8080
+      - 443:8443
     shm_size: '2gb'
     volumes:
       - ./config/haproxy:/usr/local/etc/haproxy
@@ -61,7 +20,139 @@ services:
         max-size: "200k"
         max-file: "10"
 
+# MAINNET STACK ####################################################################################
+
+  cardano-node-ogmios-mainnet:
+    image: cardanosolutions/cardano-node-ogmios:v6.1.0_8.7.3-mainnet
+    profiles: ["mainnet"]
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "400k"
+        max-file: "20"
+    ports:
+      - 127.0.0.1:1337:1337
+      - 3000:3000
+    restart: on-failure
+    volumes:
+      - node-db-mainnet:/db
+      - node-ipc-mainnet:/ipc
+
+  kupo-mainnet:
+    image: cardanosolutions/kupo:v2.7.2
+    profiles: ["mainnet"]
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "400k"
+        max-file: "20"
+    ports:
+      - 127.0.0.1:1442:1442
+    command: [
+      "--node-socket", "/ipc/node.socket",
+      "--node-config", "/config/cardano-node/config.json",
+      "--since", "${KUPO_MAINNET_SINCE:-origin}",
+      "--match", "${KUPO_MAINNET_MATCH:-*}",
+      "--workdir", "/db",
+      "--host", "0.0.0.0",
+      "--port", "1442"
+    ]
+    volumes:
+      - kupo-db-mainnet:/db
+      - node-ipc-mainnet:/ipc
+      - ./config/cardano-configurations/network/mainnet:/config
+
+# PREVIEW STACK ####################################################################################
+
+  cardano-node-ogmios-preprod:
+    image: cardanosolutions/cardano-node-ogmios:v6.1.0_8.7.3-preprod
+    profiles: ["preprod"]
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "400k"
+        max-file: "20"
+    ports:
+      - 127.0.0.1:1338:1337
+      - 3001:3000
+    restart: on-failure
+    volumes:
+      - node-db-preprod:/db
+      - node-ipc-preprod:/ipc
+
+  kupo-preprod:
+    image: cardanosolutions/kupo:v2.7.2
+    profiles: ["preprod"]
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "400k"
+        max-file: "20"
+    ports:
+      - 127.0.0.1:1443:1442
+    command: [
+      "--node-socket", "/ipc/node.socket",
+      "--node-config", "/config/cardano-node/config.json",
+      "--since", "${KUPO_PREPROD_SINCE:-origin}",
+      "--match", "${KUPO_PREPROD_MATCH:-*}",
+      "--workdir", "/db",
+      "--host", "0.0.0.0",
+      "--port", "1442"
+    ]
+    volumes:
+      - kupo-db-preprod:/db
+      - node-ipc-preprod:/ipc
+      - ./config/cardano-configurations/network/preprod:/config
+
+# PREVIEW STACK ####################################################################################
+
+  cardano-node-ogmios-preview:
+    image: cardanosolutions/cardano-node-ogmios:v6.1.0_8.7.3-preview
+    profiles: ["preview"]
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "400k"
+        max-file: "20"
+    ports:
+      - 127.0.0.1:1339:1337
+      - 3002:3000
+    restart: on-failure
+    volumes:
+      - node-db-preview:/db
+      - node-ipc-preview:/ipc
+
+  kupo-preview:
+    image: cardanosolutions/kupo:v2.7.2
+    profiles: ["preview"]
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "400k"
+        max-file: "20"
+    ports:
+      - 127.0.0.1:1444:1442
+    command: [
+      "--node-socket", "/ipc/node.socket",
+      "--node-config", "/config/cardano-node/config.json",
+      "--since", "${KUPO_PREVIEW_SINCE:-origin}",
+      "--match", "${KUPO_PREVIEW_MATCH:-*}",
+      "--workdir", "/db",
+      "--host", "0.0.0.0",
+      "--port", "1442"
+    ]
+    volumes:
+      - kupo-db-preview:/db
+      - node-ipc-preview:/ipc
+      - ./config/cardano-configurations/network/preview:/config
+
 volumes:
-  node-db:
-  node-ipc:
-  kupo-db:
+  node-db-mainnet:
+  node-db-preprod:
+  node-db-preview:
+  node-ipc-mainnet:
+  node-ipc-preprod:
+  node-ipc-preview:
+  kupo-db-mainnet:
+  kupo-db-preprod:
+  kupo-db-preview:
