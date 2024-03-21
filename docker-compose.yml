@@ -62,7 +62,7 @@ services:
       - node-ipc-mainnet:/ipc
       - ./config/cardano-configurations/network/mainnet:/config
 
-# PREVIEW STACK ####################################################################################
+# PREPROD STACK ####################################################################################
 
   cardano-node-ogmios-preprod:
     image: cardanosolutions/cardano-node-ogmios:v6.1.0_8.7.3-preprod
