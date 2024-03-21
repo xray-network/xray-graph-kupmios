@@ -6,6 +6,8 @@
 > Kupo / Ogmios (Cardano Node) stack for XRAY | Network ecosystem needs
 
 ## Getting Started
+### Prepare Installation
+
 ``` console
 git clone \
   --recurse-submodules \
@@ -13,21 +15,25 @@ git clone \
   && cd xray-graph-kupmios
 ```
 
+### Build and Run via Docker Compose
+
+> You can combine profiles to run multiple networks on the same machine: `docker compose --profile mainnet --profile preprod --profile preview up -d`
+
 <details open>
   <summary><b>MAINNET</b></summary>
 
 Default
 
 ``` console
-docker compose up -d
+docker compose --profile mainnet up -d
 ```
 
 Advanced usage (Kupo config)
 
 ``` console
-KUPO_MATCH=* \
-KUPO_SINCE=origin \
-docker compose up -d
+KUPO_MAINNET_MATCH=* \
+KUPO_MAINNET_SINCE=origin \
+docker compose --profile mainnet up -d
 ```
 
 </details>
@@ -38,19 +44,15 @@ docker compose up -d
 Default
 
 ``` console
-NETWORK=preprod docker compose up -d
+docker compose --profile preprod up -d
 ```
 
-Advanced usage (Kupo config, ports mapping, containers name change)
+Advanced usage (Kupo config)
 
 ``` console
-NETWORK=preprod \
-KUPO_MATCH=* \
-KUPO_SINCE=origin \
-CARDANO_NODE_PORT=3001 \
-OGMIOS_PORT=1338 \
-KUPO_PORT=1443 \
-docker compose -p preprod up -d
+KUPO_PREPROD_MATCH=* \
+KUPO_PREPROD_SINCE=origin \
+docker compose --profile preprod up -d
 ```
 
 </details>
@@ -62,19 +64,15 @@ docker compose -p preprod up -d
 Default
 
 ``` console
-NETWORK=preview docker compose up -d
+docker compose --profile preview up -d
 ```
 
-Advanced usage (Kupo config, ports mapping, containers name change)
+Advanced usage (Kupo config)
 
 ``` console
-NETWORK=preview \
-KUPO_MATCH=* \
-KUPO_SINCE=origin \
-CARDANO_NODE_PORT=3002 \
-OGMIOS_PORT=1339 \
-KUPO_PORT=1444 \
-docker compose -p preview up -d --build
+KUPO_PREVIEW_MATCH=* \
+KUPO_PREVIEW_SINCE=origin \
+docker compose --profile preview up -d
 ```
 
 </details>
