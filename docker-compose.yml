@@ -19,3 +19,8 @@ services:
       options:
         max-size: "200k"
         max-file: "10"
+
+include:
+  - docker-compose.mainnet.yml
+  - docker-compose.preprod.yml
+  - docker-compose.preview.yml
