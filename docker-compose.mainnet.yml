@@ -1,0 +1,45 @@
+services:
+  cardano-node-ogmios-mainnet:
+    image: cardanosolutions/cardano-node-ogmios:v6.1.0_8.7.3-mainnet
+    profiles: ["mainnet"]
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "400k"
+        max-file: "20"
+    ports:
+      - 127.0.0.1:1337:1337
+      - 3000:3000
+    restart: on-failure
+    volumes:
+      - node-db-mainnet:/db
+      - node-ipc-mainnet:/ipc
+
+  kupo-mainnet:
+    image: cardanosolutions/kupo:v2.7.2
+    profiles: ["mainnet"]
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "400k"
+        max-file: "20"
+    ports:
+      - 127.0.0.1:1442:1442
+    command: [
+      "--node-socket", "/ipc/node.socket",
+      "--node-config", "/config/cardano-node/config.json",
+      "--since", "${KUPO_SINCE_MAINNET:-origin}",
+      "--match", "${KUPO_MATCH_MAINNET:-*}",
+      "--workdir", "/db",
+      "--host", "0.0.0.0",
+      "--port", "1442"
+    ]
+    volumes:
+      - kupo-db-mainnet:/db
+      - node-ipc-mainnet:/ipc
+      - ./config/cardano-configurations/network/mainnet:/config
+
+volumes:
+  node-db-mainnet:
+  node-ipc-mainnet:
+  kupo-db-mainnet:
