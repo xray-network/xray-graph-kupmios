@@ -14,6 +14,9 @@ git clone \
   https://github.com/xray-network/xray-graph-kupmios.git \
   && cd xray-graph-kupmios
 ```
+``` console
+cp .env.example .env
+```
 
 ### Build and Run via Docker Compose
 
