@@ -31,8 +31,8 @@ docker compose --profile mainnet up -d
 Advanced usage (Kupo config)
 
 ``` console
-KUPO_MAINNET_MATCH=* \
-KUPO_MAINNET_SINCE=origin \
+KUPO_MATCH_MAINNET=* \
+KUPO_SINCE_MAINNET=origin \
 docker compose --profile mainnet up -d
 ```
 
@@ -50,8 +50,8 @@ docker compose --profile preprod up -d
 Advanced usage (Kupo config)
 
 ``` console
-KUPO_PREPROD_MATCH=* \
-KUPO_PREPROD_SINCE=origin \
+KUPO_MATCH_PREPROD=* \
+KUPO_SINCE_PREPROD=origin \
 docker compose --profile preprod up -d
 ```
 
@@ -70,8 +70,8 @@ docker compose --profile preview up -d
 Advanced usage (Kupo config)
 
 ``` console
-KUPO_PREVIEW_MATCH=* \
-KUPO_PREVIEW_SINCE=origin \
+KUPO_MATCH_PREVIEW=* \
+KUPO_SINCE_PREVIEW=origin \
 docker compose --profile preview up -d
 ```
 
