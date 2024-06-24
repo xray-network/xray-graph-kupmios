@@ -1,6 +1,6 @@
 services:
   cardano-node-ogmios-preview:
-    image: cardanosolutions/cardano-node-ogmios:v6.1.0_8.7.3-preview
+    image: cardanosolutions/cardano-node-ogmios:v6.4.0_8.9.3-preview
     profiles: ["preview"]
     logging:
       driver: "json-file"
@@ -16,7 +16,7 @@ services:
       - node-ipc-preview:/ipc
 
   kupo-preview:
-    image: cardanosolutions/kupo:v2.7.2
+    image: cardanosolutions/kupo:v2.8.0
     profiles: ["preview"]
     logging:
       driver: "json-file"
