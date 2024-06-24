@@ -1,9 +1,9 @@
 <a href="https://discord.gg/WhZmm46APN"><img alt="Discord" src="https://img.shields.io/discord/852538978946383893?style=for-the-badge&logo=discord&label=Discord&labelColor=%231940ED&color=%233FCB9B"></a>
 
-# XRAY | Graph | Kupmios — Cardano Node Ogmios & Kupo Docker Compose Stack
+# XRAY/Graph Kupmios — Cardano Node Ogmios & Kupo Docker Compose Stack
 
 > [!NOTE]
-> Kupo / Ogmios (Cardano Node) stack for XRAY | Network ecosystem needs
+> Kupo & Cardano Node Ogmios stack for XRAY/Network ecosystem needs
 
 ## Getting Started
 ### Prepare Installation
