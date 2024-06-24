@@ -2,8 +2,7 @@
 
 # XRAY/Graph Kupmios — Cardano Node Ogmios & Kupo Docker Compose Stack
 
-> [!NOTE]
-> Kupo & Cardano Node Ogmios stack for XRAY/Network ecosystem needs
+XRAY/Graph Kupmios — Kupo & Cardano Node Ogmios stack for XRAY ecosystem needs
 
 ## Getting Started
 ### Prepare Installation
