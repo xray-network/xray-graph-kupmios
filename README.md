@@ -81,6 +81,6 @@ docker compose --profile preview up -d
 
 ## Documentation
 
-* Haproxy — https://www.haproxy.org/
-* Ogmios — https://ogmios.dev
 * Kupo — https://cardanosolutions.github.io/kupo/
+* Ogmios — https://ogmios.dev/
+* Haproxy — https://www.haproxy.org/
