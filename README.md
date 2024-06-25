@@ -1,8 +1,8 @@
 <a href="https://discord.gg/WhZmm46APN"><img alt="Discord" src="https://img.shields.io/discord/852538978946383893?style=for-the-badge&logo=discord&label=Discord&labelColor=%231940ED&color=%233FCB9B"></a>
 
-# XRAY/Graph Kupmios — Cardano Node Ogmios & Kupo Docker Compose Stack
+# XRAY/Graph Kupmios — Dockerized Kupo & Ogmios (Cardano Node) stack
 
-XRAY/Graph Kupmios — Kupo & Cardano Node Ogmios stack for XRAY ecosystem needs
+XRAY/Graph Kupmios is a tool for fast and predictable deployment of [Haproxy](https://www.haproxy.org/) (TCP/HTTP Load Balancer), [Ogmios](https://ogmios.dev) (Cardano Node), and [Kupo](https://cardanosolutions.github.io/kupo/) (customizable Cardano blockchain indexer) stack in a docker environment. Used in the [XRAY/Graph](https://xray.app/) distributed Cardano API provider.
 
 ## Getting Started
 ### Prepare Installation
@@ -79,7 +79,8 @@ docker compose --profile preview up -d
 
 </details>
 
-## Endpoints List
-  
+## Documentation
+
+* Haproxy — https://www.haproxy.org/
+* Ogmios — https://ogmios.dev
 * Kupo — https://cardanosolutions.github.io/kupo/
-* Ogmios — https://ogmios.dev/api/
