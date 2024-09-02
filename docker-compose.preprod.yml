@@ -1,6 +1,6 @@
 services:
   cardano-node-ogmios-preprod:
-    image: cardanosolutions/cardano-node-ogmios:v6.4.0_8.9.3-preprod
+    image: cardanosolutions/cardano-node-ogmios:v6.6.1_9.1.0-preprod
     profiles: ["preprod"]
     logging:
       driver: "json-file"
@@ -16,7 +16,7 @@ services:
       - node-ipc-preprod:/ipc
 
   kupo-preprod:
-    image: cardanosolutions/kupo:v2.8.0
+    image: cardanosolutions/kupo:v2.9.0
     profiles: ["preprod"]
     logging:
       driver: "json-file"
