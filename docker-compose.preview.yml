@@ -1,6 +1,6 @@
 services:
   cardano-node-ogmios-preview:
-    image: cardanosolutions/cardano-node-ogmios:v6.6.1_9.1.0-preview
+    image: cardanosolutions/cardano-node-ogmios:v6.7.1_9.1.1-preview
     profiles: ["preview"]
     logging:
       driver: "json-file"
