@@ -1,6 +1,6 @@
 services:
   cardano-node-ogmios-mainnet:
-    image: cardanosolutions/cardano-node-ogmios:v6.7.1_9.1.1-mainnet
+    image: cardanosolutions/cardano-node-ogmios:v6.10.0_10.1.3-mainnet
     profiles: ["mainnet"]
     logging:
       driver: "json-file"
