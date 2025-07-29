@@ -1,0 +1,67 @@
+services:
+  cardano-node-ogmios:
+    image: cardanosolutions/cardano-node-ogmios:v6.13.0_10.1.4-${NETWORK}
+    logging:
+      driver: json-file
+      options:
+        max-size: 400k
+        max-file: "20"
+    ports:
+      - ${OGMIOS_PORT:-127.0.0.1:1337}:1337
+      - ${CARDANO_PORT:-3000}:3000
+    volumes:
+      - node-db:/db
+      - node-ipc:/ipc
+    restart: on-failure
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.cardano-node-ogmios-${NETWORK}.rule=Host(`any`) || (Header(`Host-Resolver`,`ogmios/${NETWORK}`) && Header(`Bearer-Resolver`,`${BEARER_RESOLVER_TOKEN}`))
+      - traefik.http.routers.cardano-node-ogmios-${NETWORK}.entrypoints=websecure
+      - traefik.http.routers.cardano-node-ogmios-${NETWORK}.tls=true
+      - traefik.http.routers.cardano-node-ogmios-${NETWORK}.service=cardano-node-ogmios-${NETWORK}
+      - traefik.http.services.cardano-node-ogmios-${NETWORK}.loadbalancer.server.port=1337
+    networks:
+      - default
+      - traefik
+
+  kupo:
+    image: cardanosolutions/kupo:v2.11.0
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "400k"
+        max-file: "20"
+    ports:
+      - ${KUPO_PORT:-127.0.0.1:1442}:1442
+    command: [
+      "--node-socket", "/ipc/node.socket",
+      "--node-config", "/config/cardano-node/config.json",
+      "--since", "${KUPO_SINCE:-origin}",
+      "--match", "${KUPO_MATCH:-*}",
+      "--workdir", "/db",
+      "--host", "0.0.0.0",
+      "--port", "1442"
+    ]
+    volumes:
+      - kupo-db:/db
+      - node-ipc:/ipc
+      - ./config/cardano-configurations/network/mainnet:/config
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.kupo-${NETWORK}.rule=Host(`any`) || (Header(`Host-Resolver`,`kupo/${NETWORK}`) && Header(`Bearer-Resolver`,`${BEARER_RESOLVER_TOKEN}`))
+      - traefik.http.routers.kupo-${NETWORK}.entrypoints=websecure
+      - traefik.http.routers.kupo-${NETWORK}.tls=true
+      - traefik.http.routers.kupo-${NETWORK}.service=kupo-${NETWORK}
+      - traefik.http.services.kupo-${NETWORK}.loadbalancer.server.port=1337
+    networks:
+      - default
+      - traefik
+
+volumes:
+  node-db:
+  node-ipc:
+  kupo-db:
+
+networks:
+  traefik:
+    external: true
