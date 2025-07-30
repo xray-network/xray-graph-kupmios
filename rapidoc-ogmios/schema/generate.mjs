@@ -87,9 +87,8 @@ try {
   // Convert the modified data back to JSON
   const stringifiedData = JSON.stringify(parsedData, null, 2)
 
-  // Replace custom styles 
-  // const replacedData = stringifiedData.replaceAll("background-color: #222;", "background-color: #f0f0f0b3;")
-  const replacedData = stringifiedData
+  // Replace ogmios.json path to relative path
+  const replacedData = stringifiedData.replaceAll("/ogmios.json", "./ogmios.json")
 
   // Write the modified JSON to the output file
   fs.writeFileSync(outputPath, replacedData)
