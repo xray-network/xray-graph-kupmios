@@ -1,0 +1,17 @@
+{
+  "name": "rapidoc-kupo",
+  "version": "0.0.0",
+  "description": "",
+  "license": "MIT",
+  "author": "XRAY/Network <hello@xray.app>",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "schema": "node schema/generate.mjs"
+  },
+  "type": "module",
+  "dependencies": {
+    "express": "^4.18.2",
+    "js-yaml": "^4.1.0"
+  }
+}

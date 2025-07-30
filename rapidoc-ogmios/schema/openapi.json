@@ -1,0 +1,629 @@
+{
+  "openapi": "3.0.0",
+  "servers": [
+    {
+      "url": "https://graph.xray.app/output/services/ogmios/mainnet/api/v1",
+      "description": "Mainnet"
+    },
+    {
+      "url": "https://graph.xray.app/output/services/ogmios/preprod/api/v1",
+      "description": "Preprod"
+    },
+    {
+      "url": "https://graph.xray.app/output/services/ogmios/preview/api/v1",
+      "description": "Preview"
+    }
+  ],
+  "info": {
+    "title": "Ogmios API",
+    "version": "nightly",
+    "license": {
+      "name": "MPL-2.0",
+      "url": "https://raw.githubusercontent.com/cardanosolutions/ogmios/master/LICENSE"
+    },
+    "description": "\n  <div style=\"background: #efefef;padding: 20px 30px;margin-top: 30px;border-left: 5px solid #1940ED;\">\n    <div style=\"font-size:12px; font-weight:bold;margin-bottom:10px;\">DESCRIPTION</div>\n    <div>\n      <p>\n        This service provides access to the Ogmios API through XRAY/Graph, offering a streamlined way to interact with a Cardano node. It acts as a unified bridge to the node's capabilities, enabling direct, efficient communication for developers and systems that require real-time blockchain integration.\n      </p>\n    </div>\n  </div>\n  <div style=\"background: #efefef;padding: 20px 30px;margin-top: 30px;border-left: 5px solid #1940ED;\">\n    <div style=\"font-size:12px; font-weight:bold;margin-bottom:10px;\">AUTHENTICATION & HIGHER USAGE LIMITS</div>\n    <div>\n      <p>For high-traffic applications, we recommend using the paid XRAY/Graph access (set Authorization header in Authentication section):</p>\n      <ul>\n        <li>XRAY/Graph: <a href=\"https://xray.app\">https://xray.app</a></li>\n      </ul>\n    </div>\n  </div>\n  <div style=\"background: #efefef;padding: 20px 30px;margin-top: 30px;border-left: 5px solid #ff0000;\">\n    <div style=\"font-size:12px; font-weight:bold;margin-bottom:10px;\">IMPORTANT INFORMATION</div>\n    <p>\n      Websocket connection is disabled in XRAY/Graph Ogmios service, so you can only use JSON-RPC over HTTP (only stateless queries are supported).\n    </p>\n    <ul>\n      <li>Official JSON-RPC docs: <a href=\"https://ogmios.dev/getting-started/basics/\">https://ogmios.dev/getting-started/basics/</a></li>\n    </ul>\n  </div>\n  <br /><br /><hr /><br />\n"
+  },
+  "components": {
+    "headers": {
+      "Content-Type": {
+        "schema": {
+          "type": "string",
+          "enum": [
+            "application/json;charset=utf-8"
+          ]
+        }
+      }
+    },
+    "schemas": {
+      "iso8601DateTime": {
+        "type": "string",
+        "format": "ISO 8601",
+        "examples": [
+          "2021-03-15T16:16:41.470Z"
+        ]
+      },
+      "Health": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "connectionStatus",
+          "currentEpoch",
+          "currentEra",
+          "lastKnownTip",
+          "lastTipUpdate",
+          "metrics",
+          "network",
+          "networkSynchronization",
+          "slotInEpoch",
+          "startTime",
+          "version"
+        ],
+        "properties": {
+          "startTime": {
+            "$ref": "#/components/schemas/iso8601DateTime",
+            "description": "Time at which the application was started\n"
+          },
+          "lastKnownTip": {
+            "type": "object",
+            "description": "Last known tip of the core node.\n",
+            "oneOf": [
+              {
+                "type": "object",
+                "required": [
+                  "id",
+                  "slot",
+                  "height"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "A block id as a blake2b-256 hash digest of a block header.\n",
+                    "pattern": "/^[a-f0-9]{32}$/"
+                  },
+                  "slot": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "The block's slot number (a.k.a block number).\n"
+                  },
+                  "height": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "The block's height (a.k.a block number).\n"
+                  }
+                }
+              },
+              {
+                "type": "string",
+                "enum": [
+                  "origin"
+                ]
+              }
+            ]
+          },
+          "lastTipUpdate": {
+            "$ref": "#/components/schemas/iso8601DateTime",
+            "description": "Date at which the last update was received.\n"
+          },
+          "networkSynchronization": {
+            "description": "A fixed-precision (5 digits) indicator of how far the node is from the tip of the network.\n",
+            "oneOf": [
+              {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              {
+                "type": null
+              }
+            ]
+          },
+          "currentEra": {
+            "description": "Current node's era.\n",
+            "oneOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "byron",
+                  "shelley",
+                  "allegra",
+                  "mary",
+                  "alonzo",
+                  "babbage",
+                  "conway"
+                ]
+              },
+              {
+                "type": null
+              }
+            ]
+          },
+          "metrics": {
+            "type": "object",
+            "description": "Application metrics measured at regular interval.\n",
+            "additionalProperties": false,
+            "required": [
+              "runtimeStats",
+              "activeConnections",
+              "totalConnections",
+              "sessionDurations",
+              "totalMessages",
+              "totalUnrouted"
+            ],
+            "properties": {
+              "runtimeStats": {
+                "type": "object",
+                "description": "Runtime statistics we're interested in capturing.\n",
+                "additionalProperties": false,
+                "required": [
+                  "maxHeapSize",
+                  "currentHeapSize",
+                  "cpuTime",
+                  "gcCpuTime"
+                ],
+                "properties": {
+                  "maxHeapSize": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Maximum live data in the heap, in KB\n"
+                  },
+                  "currentHeapSize": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Current live data in the heap, in KB\n"
+                  },
+                  "cpuTime": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Total CPU time (at the previous GC), in ns\n"
+                  },
+                  "gcCpuTime": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Total CPU time used by the GC, in ns\n"
+                  }
+                }
+              },
+              "activeConnections": {
+                "type": "integer",
+                "description": "Number of currently active connections\n"
+              },
+              "totalConnections": {
+                "type": "integer",
+                "description": "Total connections since the last restart\n"
+              },
+              "sessionDurations": {
+                "description": "Statistics about the duration of each session, in ms\n"
+              },
+              "totalMessages": {
+                "type": "integer",
+                "description": "Total number of messages processed through websockets\n"
+              },
+              "totalUnrouted": {
+                "type": "integer",
+                "description": "Total number of messages which couldn't be routed through the protocol\n"
+              }
+            }
+          },
+          "connectionStatus": {
+            "type": "string",
+            "description": "State of the connection with the underlying node. `connected` only\nappear for HTTP status `200` and `202` whereas `disconnected` would\ncorrespond to a status `500`.\n",
+            "enum": [
+              "connected",
+              "disconnected"
+            ]
+          },
+          "currentEpoch": {
+            "description": "Current known epoch number\n",
+            "oneOf": [
+              {
+                "type": "integer",
+                "minimum": 0,
+                "examples": [
+                  432
+                ]
+              },
+              {
+                "type": null
+              }
+            ]
+          },
+          "slotInEpoch": {
+            "description": "Relative slot number within the epoch\n",
+            "oneOf": [
+              {
+                "type": "integer",
+                "minimum": 0,
+                "examples": [
+                  21300
+                ]
+              },
+              {
+                "type": null
+              }
+            ]
+          },
+          "network": {
+            "description": "The network that Ogmios is configured for\n",
+            "oneOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "mainnet",
+                  "preview",
+                  "preprod",
+                  "sanchonet",
+                  "catastrophically-broken-testnet",
+                  "unknown (00000000)"
+                ]
+              },
+              {
+                "type": null
+              }
+            ]
+          },
+          "version": {
+            "oneOf": [
+              {
+                "type": "string",
+                "description": "The server version (semver) with a possible commit sha,",
+                "pattern": "/^v[0-9]\\.[0-9]\\.[0-9]\\( ([a-f0-9]{8})\\)?$/",
+                "examples": [
+                  "v6.5.0 (95c8799a)"
+                ]
+              },
+              {
+                "type": "string",
+                "pattern": "/^nightly\\( ([a-f0-9]{8})\\)?$/",
+                "description": "The string 'nightly', indicating a build off a development branch.",
+                "examples": [
+                  "nightly (95c8799a)"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": ""
+      }
+    }
+  },
+  "paths": {
+    "/": {
+      "post": {
+        "operationId": "jsonRPC",
+        "summary": "JSON-RPC",
+        "description": "The JSON-RPC entrypoint for HTTP.\n",
+        "requestBody": {
+          "content": {
+            "application/json;charset=utf-8": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "title": "Local Tx Submission",
+                    "oneOf": [
+                      {
+                        "$ref": "/ogmios.json#/properties/SubmitTransaction"
+                      },
+                      {
+                        "$ref": "/ogmios.json#/properties/EvaluateTransaction"
+                      }
+                    ]
+                  },
+                  {
+                    "title": "Local State Query",
+                    "oneOf": [
+                      {
+                        "$ref": "/ogmios.json#/properties/QueryLedgerStateConstitution"
+                      },
+                      {
+                        "$ref": "/ogmios.json#/properties/QueryLedgerStateConstitutionalCommittee"
+                      },
+                      {
+                        "$ref": "/ogmios.json#/properties/QueryLedgerStateDump"
+                      },
+                      {
+                        "$ref": "/ogmios.json#/properties/QueryLedgerStateDelegateRepresentatives"
+                      },
+                      {
+                        "$ref": "/ogmios.json#/properties/QueryLedgerStateEpoch"
+                      },
+                      {
+                        "$ref": "/ogmios.json#/properties/QueryLedgerStateEraStart"
+                      },
+                      {
+                        "$ref": "/ogmios.json#/properties/QueryLedgerStateEraSummaries"
+                      },
+                      {
+                        "$ref": "/ogmios.json#/properties/QueryLedgerStateGovernanceProposals"
+                      },
+                      {
+                        "$ref": "/ogmios.json#/properties/QueryLedgerStateLiveStakeDistribution"
+                      },
+                      {
+                        "$ref": "/ogmios.json#/properties/QueryLedgerStateNonces"
+                      },
+                      {
+                        "$ref": "/ogmios.json#/properties/QueryLedgerStateOperationalCertificates"
+                      },
+                      {
+                        "$ref": "/ogmios.json#/properties/QueryLedgerStateProjectedRewards"
+                      },
+                      {
+                        "$ref": "/ogmios.json#/properties/QueryLedgerStateProposedProtocolParameters"
+                      },
+                      {
+                        "$ref": "/ogmios.json#/properties/QueryLedgerStateProtocolParameters"
+                      },
+                      {
+                        "$ref": "/ogmios.json#/properties/QueryLedgerStateRewardAccountSummaries"
+                      },
+                      {
+                        "$ref": "/ogmios.json#/properties/QueryLedgerStateStakePools"
+                      },
+                      {
+                        "$ref": "/ogmios.json#/properties/QueryLedgerStateStakePoolsPerformances"
+                      },
+                      {
+                        "$ref": "/ogmios.json#/properties/QueryLedgerStateTip"
+                      },
+                      {
+                        "$ref": "/ogmios.json#/properties/QueryLedgerStateTreasuryAndReserves"
+                      },
+                      {
+                        "$ref": "/ogmios.json#/properties/QueryLedgerStateUtxo"
+                      },
+                      {
+                        "$ref": "/ogmios.json#/properties/QueryNetworkBlockHeight"
+                      },
+                      {
+                        "$ref": "/ogmios.json#/properties/QueryNetworkGenesisConfiguration"
+                      },
+                      {
+                        "$ref": "/ogmios.json#/properties/QueryNetworkStartTime"
+                      },
+                      {
+                        "$ref": "/ogmios.json#/properties/QueryNetworkTip"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "title": "Local Tx Submission",
+                      "oneOf": [
+                        {
+                          "$ref": "/ogmios.json#/properties/SubmitTransactionResponse"
+                        },
+                        {
+                          "$ref": "/ogmios.json#/properties/EvaluateTransactionResponse"
+                        }
+                      ]
+                    },
+                    {
+                      "title": "Local State Query",
+                      "oneOf": [
+                        {
+                          "$ref": "/ogmios.json#/properties/QueryLedgerStateConstitutionResponse"
+                        },
+                        {
+                          "$ref": "/ogmios.json#/properties/QueryLedgerStateConstitutionalCommitteeResponse"
+                        },
+                        {
+                          "$ref": "/ogmios.json#/properties/QueryLedgerStateDumpResponse"
+                        },
+                        {
+                          "$ref": "/ogmios.json#/properties/QueryLedgerStateDelegateRepresentativesResponse"
+                        },
+                        {
+                          "$ref": "/ogmios.json#/properties/QueryLedgerStateEpochResponse"
+                        },
+                        {
+                          "$ref": "/ogmios.json#/properties/QueryLedgerStateEraStartResponse"
+                        },
+                        {
+                          "$ref": "/ogmios.json#/properties/QueryLedgerStateEraSummariesResponse"
+                        },
+                        {
+                          "$ref": "/ogmios.json#/properties/QueryLedgerStateGovernanceProposalsResponse"
+                        },
+                        {
+                          "$ref": "/ogmios.json#/properties/QueryLedgerStateLiveStakeDistributionResponse"
+                        },
+                        {
+                          "$ref": "/ogmios.json#/properties/QueryLedgerStateNoncesResponse"
+                        },
+                        {
+                          "$ref": "/ogmios.json#/properties/QueryLedgerStateOperationalCertificatesResponse"
+                        },
+                        {
+                          "$ref": "/ogmios.json#/properties/QueryLedgerStateProjectedRewardsResponse"
+                        },
+                        {
+                          "$ref": "/ogmios.json#/properties/QueryLedgerStateProposedProtocolParametersResponse"
+                        },
+                        {
+                          "$ref": "/ogmios.json#/properties/QueryLedgerStateProtocolParametersResponse"
+                        },
+                        {
+                          "$ref": "/ogmios.json#/properties/QueryLedgerStateRewardAccountSummariesResponse"
+                        },
+                        {
+                          "$ref": "/ogmios.json#/properties/QueryLedgerStateStakePoolsResponse"
+                        },
+                        {
+                          "$ref": "/ogmios.json#/properties/QueryLedgerStateStakePoolsPerformancesResponse"
+                        },
+                        {
+                          "$ref": "/ogmios.json#/properties/QueryLedgerStateTipResponse"
+                        },
+                        {
+                          "$ref": "/ogmios.json#/properties/QueryLedgerStateTreasuryAndReservesResponse"
+                        },
+                        {
+                          "$ref": "/ogmios.json#/properties/QueryLedgerStateUtxoResponse"
+                        },
+                        {
+                          "$ref": "/ogmios.json#/properties/QueryNetworkBlockHeightResponse"
+                        },
+                        {
+                          "$ref": "/ogmios.json#/properties/QueryNetworkGenesisConfigurationResponse"
+                        },
+                        {
+                          "$ref": "/ogmios.json#/properties/QueryNetworkStartTimeResponse"
+                        },
+                        {
+                          "$ref": "/ogmios.json#/properties/QueryNetworkTipResponse"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "examples": {
+                  "rpc": {
+                    "value": {
+                      "jsonrpc": "2.0",
+                      "method": "queryLedgerState/constitution",
+                      "result": {
+                        "metadata": {
+                          "url": "",
+                          "hash": "0000000000000000000000000000000000000000000000000000000000000000"
+                        },
+                        "guardrails": null
+                      },
+                      "id": null
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "operationId": "getHealth",
+        "summary": "Get Health",
+        "description": "Ogmios' health details. See also [Getting Started - Health/Metrics](/getting-started/monitoring/#health--metrics) for additional information.\n",
+        "responses": {
+          "200": {
+            "description": "Connected and synchronized.\n",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "application/json;charset=utf-8"
+                  ]
+                }
+              }
+            },
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/Health"
+                }
+              }
+            }
+          },
+          "202": {
+            "description": "Connected and far from the network tip.\n",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "application/json;charset=utf-8"
+                  ]
+                }
+              }
+            },
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/Health"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Disconnected.\n",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "application/json;charset=utf-8"
+                  ]
+                }
+              }
+            },
+            "content": {
+              "application/json;charset=utf-8": {
+                "schema": {
+                  "$ref": "#/components/schemas/Health"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/metrics": {
+      "get": {
+        "operationId": "getMetrics",
+        "summary": "Get Metrics",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "Prometheus metrics. See also [Getting Started - Prometheus Metrics](/getting-started/monitoring/#prometheus-metrics) for additional information.\n",
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "application/json;charset=utf-8"
+                  ]
+                }
+              }
+            },
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "description": "A key-value export compatible with Prometheus.\n\n- `connected` and `disconnected` status are encoded as `1.0` and `0.0` respectively.\n- `tip_at_genesis` is set to `1.0` when the networking tip is unknown / at genesis.\n"
+                },
+                "examples": {
+                  "rpc": {
+                    "value": "# TYPE ogmios_active_connections gauge\nogmios_active_connections  0.0\n\n# TYPE ogmios_connected gauge\nogmios_connected  1.0\n\n# TYPE ogmios_cpu_time counter\nogmios_cpu_time  0\n\n# TYPE ogmios_current_heap_size gauge\nogmios_current_heap_size  0.0\n\n# TYPE ogmios_gc_cpu_time counter\nogmios_gc_cpu_time  0\n\n# TYPE ogmios_max_heap_size gauge\nogmios_max_heap_size  0.0\n\n# TYPE ogmios_session_duration_max gauge\nogmios_session_duration_max  0.0\n\n# TYPE ogmios_session_duration_mean gauge\nogmios_session_duration_mean  0.0\n\n# TYPE ogmios_session_duration_min gauge\nogmios_session_duration_min  0.0\n\n# TYPE ogmios_tip_at_genesis gauge\nogmios_tip_at_genesis 1.0\n\n# TYPE ogmios_total_connections counter\nogmios_total_connections  0\n\n# TYPE ogmios_total_messages counter\nogmios_total_messages  0\n\n# TYPE ogmios_total_unrouted counter\nogmios_total_unrouted  0\n"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ]
+}

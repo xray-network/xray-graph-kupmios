@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>XRAY/Graph Ogmios</title>
+  <link rel="icon" href="https://cdn.xray.app/logo/xray-blue.svg" />
+  <link rel="stylesheet" href="https://cdn.xray.app/fonts/satoshi.css" type="text/css" media="all" />
+  <script type="module" src="https://unpkg.com/rapidoc/dist/rapidoc-min.js"></script>
+  <style>
+    rapi-doc {
+      font-size: 14px;
+    }
+    rapi-doc::part(section-navbar) {
+      border-right: 1px solid #dadde1;
+      padding-top: 10px;
+    }
+    rapi-doc::part(section-header) {
+      box-shadow: 0 1px 2px 0 #dadde1;
+      position: relative;
+      z-index: 100;
+    }
+    rapi-doc::part(label-header-title) {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <rapi-doc
+    spec-url="openapi.json"
+    allow-spec-url-load="true"
+    allow-spec-file-load="false"
+    show-header="true"
+    show-info="true"
+    sort-tags="false"
+    allow-server-selection="true"
+    allow-authentication="true"
+    allow-api-list-style-selection="true"
+    render-style="focused"
+    schema-style="table"
+    allow-try="true"
+    heading-text="XRAY/Graph Ogmios"
+    on-nav-tag-click="show-description"
+    update-route="true"
+    use-path-in-nav-bar="false"
+    nav-item-spacing="default"
+    show-components="false"
+    fill-request-fields-with-example="true"
+    schema-style="table"
+    default-schema-tab="schema"
+    schema-description-expanded="false"
+    schema-expand-level="1"
+    load-fonts="true"
+    font-size="default"
+    show-method-in-nav-bar="as-colored-text"
+    nav-active-item-marker="colored-block"
+    allow-schema-description-expand-toggle="true"
+    show-curl-before-try="true"
+    schema-hide-read-only="never"
+    mono-font="monospace"
+    regular-font="Satoshi"
+    header-color="#ffffff"
+    primary-color="#1940ed"
+    bg-color="#ffffff"
+    text-color="#1c1e21"
+    nav-bg-color="#ffffff"
+  >
+    <img slot="logo" src="https://cdn.xray.app/logo/xray-blue.svg" style="height: 36px; margin-left: 10px" />
+  </rapi-doc>
+  <!-- Dark theme configuration (commented out)
+    theme="dark"
+    header-color="#06050c"
+    primary-color="#4c82fb"
+    bg-color="#110f1c"
+    text-color="#e3e3e3"
+    nav-bg-color="#110f1c"
+  -->
+</body>
+
+</html>
