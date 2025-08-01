@@ -57,6 +57,52 @@ services:
       - default
       - traefik
 
+  rapidoc-kupo:
+    build:
+      context: .
+      target: rapidoc-kupo
+    ports:
+      - ${RAPIDOC_KUPO_PORT:-127.0.0.1:2600}:2600
+    restart: on-failure
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.rapidoc-kupo-${NETWORK}.rule=(Host(`any`) || (Header(`Host-Resolver`,`kupo/${NETWORK}`) && Header(`Bearer-Resolver`,`${BEARER_RESOLVER_TOKEN}`))) && (Path(`/`) || Path(`/openapi.json`))
+      - traefik.http.routers.rapidoc-kupo-${NETWORK}.entrypoints=websecure
+      - traefik.http.routers.rapidoc-kupo-${NETWORK}.tls=true
+      - traefik.http.routers.rapidoc-kupo-${NETWORK}.service=rapidoc-kupo-${NETWORK}
+      - traefik.http.services.rapidoc-kupo-${NETWORK}.loadbalancer.server.port=2600
+    networks:
+      - default
+      - traefik
+    logging:
+      driver: json-file
+      options:
+        max-size: 200k
+        max-file: "10"
+
+  rapidoc-ogmios:
+    build:
+      context: .
+      target: rapidoc-ogmios
+    ports:
+      - ${RAPIDOC_OGMIOS_PORT:-127.0.0.1:2500}:2500
+    restart: on-failure
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.rapidoc-ogmios-${NETWORK}.rule=Method(`GET`) && (Host(`any`) || (Header(`Host-Resolver`,`ogmios/${NETWORK}`) && Header(`Bearer-Resolver`,`${BEARER_RESOLVER_TOKEN}`))) && (Path(`/`) || Path(`/openapi.json`) || Path(`/ogmios.json`))
+      - traefik.http.routers.rapidoc-ogmios-${NETWORK}.entrypoints=websecure
+      - traefik.http.routers.rapidoc-ogmios-${NETWORK}.tls=true
+      - traefik.http.routers.rapidoc-ogmios-${NETWORK}.service=rapidoc-ogmios-${NETWORK}
+      - traefik.http.services.rapidoc-ogmios-${NETWORK}.loadbalancer.server.port=2500
+    networks:
+      - default
+      - traefik
+    logging:
+      driver: json-file
+      options:
+        max-size: 200k
+        max-file: "10"
+
 volumes:
   node-db:
   node-ipc:
