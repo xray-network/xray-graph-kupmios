@@ -89,7 +89,7 @@ services:
     restart: on-failure
     labels:
       - traefik.enable=true
-      - traefik.http.routers.rapidoc-ogmios-${NETWORK}.rule=Method(`GET`) && (Host(`any`) || (Header(`Host-Resolver`,`ogmios/${NETWORK}`) && Header(`Bearer-Resolver`,`${BEARER_RESOLVER_TOKEN}`))) && (Path(`/`) || Path(`/openapi.json`) || Path(`/ogmios.json`))
+      - traefik.http.routers.rapidoc-ogmios-${NETWORK}.rule=Method(`GET`) && (Host(`any`) || (Header(`Host-Resolver`,`ogmios/${NETWORK}`) && Header(`Bearer-Resolver`,`${BEARER_RESOLVER_TOKEN}`))) && (Path(`/`) || Path(`/openapi.json`) || Path(`/ogmios.json`) || Path(`/cardano.json`))
       - traefik.http.routers.rapidoc-ogmios-${NETWORK}.entrypoints=websecure
       - traefik.http.routers.rapidoc-ogmios-${NETWORK}.tls=true
       - traefik.http.routers.rapidoc-ogmios-${NETWORK}.service=rapidoc-ogmios-${NETWORK}
