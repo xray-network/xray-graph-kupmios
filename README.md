@@ -124,7 +124,7 @@ We recommend to use `cardano-ogmios-client`. Visit [cardano-ogmios-client](https
 ``` console
 git clone https://github.com/xray-network/traefik-docker.git \
 && cd traefik-docker \
-&& docker compose -up d
+&& docker compose up -d
 ```
 
 2. Set `BEARER_RESOLVER_TOKEN` and `docker-compose.xray.yaml`:
