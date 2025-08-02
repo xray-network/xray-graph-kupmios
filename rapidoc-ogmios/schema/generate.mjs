@@ -111,3 +111,19 @@ try {
 } catch (error) {
   console.error("Error fetching or parsing JSON:", error)
 }
+
+try {
+  // Fetch the JSON file from the URL
+  const koiosJSON = "https://raw.githubusercontent.com/CardanoSolutions/ogmios/refs/heads/master/docs/static/cardano.json"
+  const outputPath = "./schema/cardano.json"
+  const response = await fetch(koiosJSON)
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`)
+  }
+  const jsonText = await response.text()
+
+  // Write the JSON to the output file
+  fs.writeFileSync(outputPath, jsonText)
+} catch (error) {
+  console.error("Error fetching or parsing JSON:", error)
+}

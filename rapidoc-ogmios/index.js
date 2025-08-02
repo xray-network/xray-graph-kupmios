@@ -31,6 +31,10 @@ router.get("/ogmios.json", async (req, res) => {
   res.sendFile("./schema/ogmios.json", { root: __dirname })
 })
 
+router.get("/cardano.json", async (req, res) => {
+  res.sendFile("./schema/cardano.json", { root: __dirname })
+})
+
 app.use('/', router)
 
 app.listen(PORT, HOST);
