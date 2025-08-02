@@ -352,7 +352,7 @@
         ]
       },
       "DatumType": {
-        "description": "Categorize the type of datum in the output:\n\n- `hash`: means that the output only contains a reference to the datum;\n- `inline`: means that the ouput originally contained a full inline datum.\n\nIn both cases however, Kupo returns only a `datum_hash`, and full datums\ncan be retrieved via the [`GET /datums/{datum-hash}`](#tag/Datums/paths/~1datums~1{datum-hash}/get)\nendpoint.\n\nThis field is only present when `datum_hash` is not `null`.\n",
+        "description": "Categorize the type of datum in the output:\n\n- `hash`: means that the output only contains a reference to the datum;\n- `inline`: means that the ouput originally contained a full inline datum.\n\nIn both cases however, Kupo returns only a `datum_hash`, and full datums\ncan be retrieved via the [`GET /datums/{datum_hash}`](#tag/Datums/paths/~1datums~1{datum_hash}/get)\nendpoint.\n\nThis field is only present when `datum_hash` is not `null`.\n",
         "type": "string",
         "enum": [
           "hash",
@@ -384,7 +384,7 @@
             "required": [
               "slot_no"
             ],
-            "description": "A mandatory point to rollback the synchronization to.\nNote that the synchronization will therefore begin starting from the point **immediately after** the provided point!\n\n> <sup><strong>NOTE (1)</strong></sup> <br/>\n> If you need to query ancestors from any given known point, see [`GET /checkpoints/{slot-no}`](#operation/getCheckpointBySlot)\n\n> <sup><strong>NOTE (2)</strong></sup> <br/>\n> The `header_hash` is **optional**! However if provided, Kupo will check that it rolls back exactly to the specified point by comparing header hashes.\n> If it's omitted, Kupo will rollback to the given slot number or, any closest ancestor if no point is found at the given slot.\n",
+            "description": "A mandatory point to rollback the synchronization to.\nNote that the synchronization will therefore begin starting from the point **immediately after** the provided point!\n\n> <sup><strong>NOTE (1)</strong></sup> <br/>\n> If you need to query ancestors from any given known point, see [`GET /checkpoints/{slot_no}`](#operation/getCheckpointBySlot)\n\n> <sup><strong>NOTE (2)</strong></sup> <br/>\n> The `header_hash` is **optional**! However if provided, Kupo will check that it rolls back exactly to the specified point by comparing header hashes.\n> If it's omitted, Kupo will rollback to the given slot number or, any closest ancestor if no point is found at the given slot.\n",
             "properties": {
               "slot_no": {
                 "$ref": "#/components/schemas/SlotNo"
@@ -1343,7 +1343,7 @@
           "Matches"
         ],
         "summary": "Get All Matches",
-        "description": "Retrieve all matches from the database, in descending `slot_no` order. Results are streamed to the client for more efficiency.\n\nOptionally, use `?resolve_hashes` to automatically resolve and include `datum` and `script` associated with hash references, if available. Datums and scripts can otherwise be fetched using the [_Get Datum by Hash_](#tag/Datums/paths/~1datums~1{datum-hash}/get) and [_Get Script by Hash_](#tag/Scripts/paths/~1scripts~1{script-hash}/get) endpoints respectively.\n\nNote that it is generally a bad idea to fetch **ALL matches** for indexes built off permissive patterns (e.g. `*`), for the server will yield a large response.\n",
+        "description": "Retrieve all matches from the database, in descending `slot_no` order. Results are streamed to the client for more efficiency.\n\nOptionally, use `?resolve_hashes` to automatically resolve and include `datum` and `script` associated with hash references, if available. Datums and scripts can otherwise be fetched using the [_Get Datum by Hash_](#tag/Datums/paths/~1datums~1{datum_hash}/get) and [_Get Script by Hash_](#tag/Scripts/paths/~1scripts~1{script_hash}/get) endpoints respectively.\n\nNote that it is generally a bad idea to fetch **ALL matches** for indexes built off permissive patterns (e.g. `*`), for the server will yield a large response.\n",
         "parameters": [
           {
             "$ref": "#/components/parameters/resolve-hashes"
@@ -1588,7 +1588,7 @@
         }
       }
     },
-    "/datums/{datum-hash}": {
+    "/datums/{datum_hash}": {
       "get": {
         "operationdId": "getDatumByHash",
         "tags": [
@@ -1660,7 +1660,7 @@
         }
       }
     },
-    "/scripts/{script-hash}": {
+    "/scripts/{script_hash}": {
       "get": {
         "operationdId": "getScriptByHash",
         "tags": [
@@ -2021,7 +2021,7 @@
         }
       }
     },
-    "/checkpoints/{slot-no}": {
+    "/checkpoints/{slot_no}": {
       "get": {
         "operationId": "getCheckpointBySlot",
         "tags": [
@@ -2085,7 +2085,7 @@
         }
       }
     },
-    "/metadata/{slot-no}": {
+    "/metadata/{slot_no}": {
       "get": {
         "operationId": "getMetadataBySlot",
         "tags": [

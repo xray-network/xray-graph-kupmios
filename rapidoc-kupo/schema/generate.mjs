@@ -97,6 +97,9 @@ try {
   // Replace custom styles 
   // const replacedData = stringifiedData.replaceAll("background-color: #222;", "background-color: #f0f0f0b3;")
   const replacedData = stringifiedData
+    .replaceAll('{datum-hash}', "{datum_hash}")
+    .replaceAll('{script-hash}', "{script_hash}")
+    .replaceAll('{slot-no}', "{slot_no}")
 
   // Write the modified JSON to the output file
   fs.writeFileSync(outputPath, replacedData)
