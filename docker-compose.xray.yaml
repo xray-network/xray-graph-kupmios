@@ -52,7 +52,7 @@ services:
       - traefik.http.routers.kupo-${NETWORK}.entrypoints=websecure
       - traefik.http.routers.kupo-${NETWORK}.tls=true
       - traefik.http.routers.kupo-${NETWORK}.service=kupo-${NETWORK}
-      - traefik.http.services.kupo-${NETWORK}.loadbalancer.server.port=1337
+      - traefik.http.services.kupo-${NETWORK}.loadbalancer.server.port=1442
     networks:
       - default
       - traefik
