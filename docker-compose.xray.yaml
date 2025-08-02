@@ -45,7 +45,7 @@ services:
     volumes:
       - kupo-db:/db
       - node-ipc:/ipc
-      - ./config/cardano-configurations/network/mainnet:/config
+      - ./config/cardano-configurations/network/${NETWORK}:/config
     labels:
       - traefik.enable=true
       - traefik.http.routers.kupo-${NETWORK}.rule=Host(`any`) || (Header(`Host-Resolver`,`kupo/${NETWORK}`) && Header(`Bearer-Resolver`,`${BEARER_RESOLVER_TOKEN}`))

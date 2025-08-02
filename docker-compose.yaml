@@ -35,7 +35,7 @@ services:
     volumes:
       - kupo-db:/db
       - node-ipc:/ipc
-      - ./config/cardano-configurations/network/mainnet:/config
+      - ./config/cardano-configurations/network/${NETWORK}:/config
 
   rapidoc-kupo:
     build:
